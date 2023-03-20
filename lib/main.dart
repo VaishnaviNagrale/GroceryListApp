@@ -22,7 +22,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int? selectedId;
   final textController = TextEditingController();
-
   @override
   void dispose() {
     _themeManager.removeListener(themeListener);
@@ -58,9 +57,9 @@ class _MyAppState extends State<MyApp> {
             decoration: InputDecoration(
               hintText: 'Enter here...',
               border: InputBorder.none,
-              hintStyle: TextStyle(color: Colors.amber[50]),
+              // hintStyle: TextStyle(color: Colors.amber[50]),
             ),
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.w400),
             cursorColor: Colors.black,
             cursorHeight: 30,
           ),
@@ -94,10 +93,11 @@ class _MyAppState extends State<MyApp> {
                           return Center(
                             child: Card(
                               color: selectedId == grocery.id
-                                  ? Colors.amber[300]
-                                  : Colors.grey,
+                                  ? Colors.amber
+                                  : Colors.grey.withOpacity(0.2),
                               child: ListTile(
                                 title: Text(grocery.name),
+                                splashColor: Colors.grey,
                                 onTap: () {
                                   setState(() {
                                     if (selectedId == null) {

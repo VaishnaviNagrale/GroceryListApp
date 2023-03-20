@@ -8,8 +8,8 @@ ThemeData lightTheme = ThemeData(
   floatingActionButtonTheme: FloatingActionButtonThemeData(
     backgroundColor: Colors.orange,
   ),
+  textTheme: TextTheme(),
 );
-
 
 ThemeData darkTheme = ThemeData(
   brightness: Brightness.dark,
