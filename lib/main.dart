@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sqflite_learning/databaseHelper.dart';
 import 'package:flutter_sqflite_learning/grocery.dart';
+import 'package:flutter_sqflite_learning/themes/theme_constants.dart';
+import 'package:flutter_sqflite_learning/themes/theme_manager.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const MyApp());
 }
+
+ThemeManager _themeManager = ThemeManager();
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -20,14 +24,35 @@ class _MyAppState extends State<MyApp> {
   final textController = TextEditingController();
 
   @override
+  void dispose() {
+    _themeManager.removeListener(themeListener);
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _themeManager.addListener(themeListener);
+    super.initState();
+  }
+
+  themeListener() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      title: "GroceryListApp",
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: _themeManager.themeMode,
       home: Scaffold(
-        backgroundColor: Colors.green,
+        // backgroundColor: Colors.green,
         appBar: AppBar(
-          backgroundColor: Colors.orange,
-          //title: TextField(controller: textController),
+          // backgroundColor: Colors.orange,
           title: TextField(
             controller: textController,
             decoration: InputDecoration(
@@ -35,10 +60,19 @@ class _MyAppState extends State<MyApp> {
               border: InputBorder.none,
               hintStyle: TextStyle(color: Colors.amber[50]),
             ),
-            style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontWeight: FontWeight.bold),
             cursorColor: Colors.black,
             cursorHeight: 30,
           ),
+          actions: [
+            Switch(
+              activeColor: Colors.black,
+              value: _themeManager.themeMode == ThemeMode.dark,
+              onChanged: (newValue) {
+                _themeManager.toggleTheme(newValue);
+              },
+            ),
+          ],
         ),
         body: Center(
           child: FutureBuilder<List<Grocery>>(
@@ -61,7 +95,7 @@ class _MyAppState extends State<MyApp> {
                             child: Card(
                               color: selectedId == grocery.id
                                   ? Colors.amber[300]
-                                  : Colors.white,
+                                  : Colors.grey,
                               child: ListTile(
                                 title: Text(grocery.name),
                                 onTap: () {
@@ -90,7 +124,7 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.orange,
+          //backgroundColor: Colors.orange,
           tooltip: 'save list',
           onPressed: () async {
             selectedId != null
