@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_sqflite_learning">
    <application
-        android:label="flutter_sqflite_learning"
+        android:label="List App"
         android:name="${applicationName}"
         android:icon="@mipmap/grocery_app_icon">
         <activity
